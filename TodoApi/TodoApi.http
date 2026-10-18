@@ -4,3 +4,27 @@ GET {{TodoApi_HostAddress}}/api/tasks
 Accept: application/json
 
 ###
+
+GET {{TodoApi_HostAddress}}/api/tasks/00000000-0000-0000-0000-000000000001
+Accept: application/json
+
+### Create a task
+POST {{TodoApi_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+	"title": "Prepare API demo",
+	"description": "Create a task to verify the successful request path.",
+	"isCompleted": false,
+	"dueDate": "2026-10-25T12:00:00"
+}
+
+### Invalid request: title is empty and dueDate is missing; expect 400
+POST {{TodoApi_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+	"title": "",
+	"description": "This request should fail validation.",
+	"isCompleted": false
+}

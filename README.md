@@ -6,8 +6,9 @@ API مدیریت وظایف با ASP.NET Core 8 و SQL Server. این پروژه
 
 - زیرساخت SQL Server، مدل `TodoTask`، `TodoDbContext` و migration اولیه آماده است.
 - برنامه در زمان اجرا migrationهای موجود را خودکار اعمال می‌کند.
-- `GET /api/tasks` برای دریافت همه‌ی وظایف پیاده‌سازی شده است.
-- دریافت یک وظیفه، ساخت، ویرایش، حذف و اعتبارسنجی DTOهای ورودی مراحل بعدی هستند.
+- `GET /api/tasks` و `GET /api/tasks/{id}` برای دریافت وظایف پیاده‌سازی شده‌اند.
+- `POST /api/tasks` وظیفه می‌سازد و اعتبارسنجی ورودی دارد.
+- `PUT /api/tasks/{id}` و `DELETE /api/tasks/{id}` مراحل بعدی هستند.
 - خطاهای مدیریت‌نشده و پاسخ‌های status خالی با Problem Details به‌صورت سراسری مدیریت می‌شوند.
 
 ## ساختار کد
@@ -16,7 +17,7 @@ API مدیریت وظایف با ASP.NET Core 8 و SQL Server. این پروژه
 TodoApi/
 ├── Controllers/       # HTTP endpoints
 ├── Domain/Entities/   # TodoTask
-├── DTOs/Tasks/        # مدل‌های ورودی و خروجی API
+├── DTOs/Tasks/        # مدل‌های ورودی/خروجی و اعتبارسنجی
 ├── Data/              # DbContext و EF Core migrations
 └── Services/Tasks/    # منطق دسترسی و عملیات وظایف
 ```
@@ -72,23 +73,42 @@ dotnet run --project TodoApi/TodoApi.csproj
 
 ## API پیاده‌سازی‌شده
 
-### دریافت همه‌ی وظایف
+### دریافت وظایف
 
 ```http
 GET /api/tasks
+GET /api/tasks/{id}
 ```
 
-پاسخ موفق `200 OK` است. اگر هنوز وظیفه‌ای ثبت نشده باشد، بدنه‌ی پاسخ آرایه‌ی خالی (`[]`) خواهد بود. درخواست نمونه نیز در `TodoApi/TodoApi.http` قرار دارد.
+پاسخ هر دو route در صورت موفقیت `200 OK` است. اگر لیست خالی باشد بدنه‌ی پاسخ `[]` است؛ شناسه‌ی ناموجود در route دوم پاسخ `404 Not Found` می‌دهد.
+
+### ساخت وظیفه و نمایش 400
+
+```http
+POST /api/tasks
+Content-Type: application/json
+
+{
+	"title": "Prepare API demo",
+	"description": "Verify task creation.",
+	"isCompleted": false,
+	"dueDate": "2026-10-25T12:00:00"
+}
+```
+
+درخواست معتبر پاسخ `201 Created` و header `Location` با مسیر `GET /api/tasks/{id}` می‌دهد. اگر `title` یا `description` خالی/حذف شده باشد، طول عنوان بیش از 200، طول توضیحات بیش از 2000، یا `dueDate` ارسال نشده باشد، `[ApiController]` قبل از اجرای action پاسخ `400 Bad Request` با `ValidationProblemDetails` تولید می‌کند. در Swagger نیز پاسخ‌های `201` و `400` برای `POST` مستند شده‌اند.
+
+نمونه‌ی آماده‌ی درخواست نامعتبر در `TodoApi/TodoApi.http` است؛ در آن `title` خالی و `dueDate` حذف شده تا خطاهای اعتبارسنجی را ببینی.
 
 ### مدیریت خطا و کدهای وضعیت
 
 | کد | کاربرد | بدنه‌ی خطا |
 | --- | --- | --- |
 | `400 Bad Request` | درخواست دارای ورودی نامعتبر؛ برای endpointهای دارای DTO ورودی مثل `POST` و `PUT` | `ValidationProblemDetails` با جزئیات فیلدهای نامعتبر |
-| `404 Not Found` | شناسه‌ی وظیفه پیدا نشود؛ برای endpointهای تک‌وظیفه‌ای | `ProblemDetails` |
+| `404 Not Found` | شناسه‌ی وظیفه پیدا نشود | `ProblemDetails` |
 | `500 Internal Server Error` | خطای پیش‌بینی‌نشده، مثل در دسترس نبودن دیتابیس | `ProblemDetails` عمومی؛ جزئیات داخلی exception به client داده نمی‌شود |
 
-`AddProblemDetails`، `UseExceptionHandler` و `UseStatusCodePages` پاسخ‌های خطای سراسری را پوشش می‌دهند. `[ApiController]` نیز پس از اضافه‌شدن DTOهای اعتبارسنجی‌شده، ورودی نامعتبر را خودکار با `400` پاسخ می‌دهد. چون `GET /api/tasks` ورودی قابل اعتبارسنجی ندارد، پاسخ معمول آن `200` است؛ در Swagger پاسخ‌های `200` و `500` برای همین endpoint ثبت شده‌اند. برای endpointهای بعدی، status codeهای واقعی همان عملیات را با `[ProducesResponseType]` مستند کنید؛ مثلا `400` برای POST/PUT و `404` برای دریافت، ویرایش یا حذف شناسه‌ی ناموجود.
+`AddProblemDetails`، `UseExceptionHandler` و `UseStatusCodePages` پاسخ‌های خطای سراسری را پوشش می‌دهند. `[ApiController]` پیش از اجرای action، ورودی نامعتبر را خودکار با `400 ValidationProblemDetails` پاسخ می‌دهد. خطای ناشناخته با `500 ProblemDetails` برمی‌گردد و جزئیات داخلی exception برای client افشا نمی‌شود. در Swagger پاسخ‌های متناسب با هر endpoint با `[ProducesResponseType]` ثبت شده‌اند.
 
 ## Migrationهای بعدی
 
