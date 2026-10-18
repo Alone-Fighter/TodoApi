@@ -1,17 +1,19 @@
-# Todo API
+<h1 dir="rtl" align="right">مستندات Todo API</h1>
 
-API مدیریت وظایف با ASP.NET Core 8 و SQL Server. این پروژه بر اساس تسک To-do List ریرا پیش می‌رود.
+<p dir="rtl" align="right">این پروژه یک API مدیریت وظایف با <bdi dir="ltr">ASP.NET Core 8</bdi> و <bdi dir="ltr">SQL Server</bdi> است و بر اساس تسک To-do List ریرا پیش می‌رود.</p>
 
-## وضعیت پیاده‌سازی
+<h2 dir="rtl" align="right">وضعیت پیاده‌سازی</h2>
 
-- زیرساخت SQL Server، مدل `TodoTask`، `TodoDbContext` و migration اولیه آماده است.
-- برنامه در زمان اجرا migrationهای موجود را خودکار اعمال می‌کند.
-- `GET /api/tasks` و `GET /api/tasks/{id}` برای دریافت وظایف پیاده‌سازی شده‌اند.
-- `POST /api/tasks` وظیفه می‌سازد و اعتبارسنجی ورودی دارد.
-- `PUT /api/tasks/{id}` و `DELETE /api/tasks/{id}` مراحل بعدی هستند.
-- خطاهای مدیریت‌نشده و پاسخ‌های status خالی با Problem Details به‌صورت سراسری مدیریت می‌شوند.
+<ul dir="rtl" align="right">
+	<li>زیرساخت <bdi dir="ltr">SQL Server</bdi>، مدل <code dir="ltr">TodoTask</code>، <code dir="ltr">TodoDbContext</code> و migration اولیه آماده است.</li>
+	<li>برنامه هنگام اجرا migrationهای موجود را خودکار اعمال می‌کند.</li>
+	<li><code dir="ltr">GET /api/tasks</code> و <code dir="ltr">GET /api/tasks/{id}</code> برای دریافت وظایف پیاده‌سازی شده‌اند.</li>
+	<li><code dir="ltr">POST /api/tasks</code> وظیفه می‌سازد و اعتبارسنجی ورودی دارد.</li>
+	<li><code dir="ltr">PUT /api/tasks/{id}</code> و <code dir="ltr">DELETE /api/tasks/{id}</code> مراحل بعدی هستند.</li>
+	<li>خطاهای مدیریت‌نشده و پاسخ‌های status خالی با <bdi dir="ltr">Problem Details</bdi> به‌صورت سراسری مدیریت می‌شوند.</li>
+</ul>
 
-## ساختار کد
+<h2 dir="rtl" align="right">ساختار کد</h2>
 
 ```text
 TodoApi/
@@ -22,25 +24,27 @@ TodoApi/
 └── Services/Tasks/    # منطق دسترسی و عملیات وظایف
 ```
 
-در این پروژه‌ی کوچک، هر لایه پوشه‌ی جدا دارد و در یک پروژه‌ی .NET نگه‌داری می‌شود. `TodoDbContext` نقش Repository/Unit of Work مربوط به EF Core را دارد؛ بنابراین Repository عمومی جداگانه اضافه نشده است.
+<p dir="rtl" align="right">در این پروژه‌ی کوچک، هر لایه پوشه‌ی جدا دارد و در یک پروژه‌ی <bdi dir="ltr">.NET</bdi> نگه‌داری می‌شود. <code dir="ltr">TodoDbContext</code> نقش <bdi dir="ltr">Repository/Unit of Work</bdi> مربوط به <bdi dir="ltr">EF Core</bdi> را دارد؛ بنابراین Repository عمومی جداگانه اضافه نشده است.</p>
 
-## پیش‌نیازها
+<h2 dir="rtl" align="right">پیش‌نیازها</h2>
 
-- .NET 8 SDK
-- SQL Server در دسترس از طریق اتصال تعریف‌شده در تنظیمات
-- دسترسی کاربر SQL Server برای ایجاد دیتابیس در اولین اجرا
+<ul dir="rtl" align="right">
+	<li><bdi dir="ltr">.NET 8 SDK</bdi></li>
+	<li><bdi dir="ltr">SQL Server</bdi> در دسترس از طریق اتصال تعریف‌شده در تنظیمات</li>
+	<li>دسترسی کاربر <bdi dir="ltr">SQL Server</bdi> برای ایجاد دیتابیس در اولین اجرا</li>
+</ul>
 
-اتصال پیش‌فرض در `TodoApi/appsettings.json` از Windows Authentication استفاده می‌کند:
+<p dir="rtl" align="right">اتصال پیش‌فرض در فایل <code dir="ltr">TodoApi/appsettings.json</code> از <bdi dir="ltr">Windows Authentication</bdi> استفاده می‌کند:</p>
 
 ```text
 Server=localhost;Database=TodoApiDb;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True
 ```
 
-اگر SQL Server شما روی نمونه‌ای دیگر اجرا می‌شود، مقدار `TodoDatabase` را تغییر دهید. برای نمونه‌ی `SQLEXPRESS` مقدار `Server=localhost\SQLEXPRESS` را به کار ببرید. در محیط‌های دیگر می‌توان رشته اتصال را با متغیر محیطی `ConnectionStrings__TodoDatabase` جایگزین کرد.
+<p dir="rtl" align="right">اگر <bdi dir="ltr">SQL Server</bdi> شما روی نمونه‌ای دیگر اجرا می‌شود، مقدار <code dir="ltr">TodoDatabase</code> را تغییر دهید. برای نمونه‌ی <bdi dir="ltr">SQLEXPRESS</bdi> مقدار <code dir="ltr">Server=localhost\SQLEXPRESS</code> را به کار ببرید. در محیط‌های دیگر می‌توان رشته اتصال را با متغیر محیطی <code dir="ltr">ConnectionStrings__TodoDatabase</code> جایگزین کرد.</p>
 
-## ساخت پروژه از صفر
+<h2 dir="rtl" align="right">ساخت پروژه از صفر</h2>
 
-برای ساخت اسکلت مشابه این مخزن با .NET 8 و Controllerها، از پوشه‌ای خالی این دستورها را اجرا کنید:
+<p dir="rtl" align="right">برای ساخت اسکلت مشابه این مخزن با <bdi dir="ltr">.NET 8</bdi> و Controllerها، از پوشه‌ای خالی این دستورها را اجرا کنید:</p>
 
 ```powershell
 dotnet new sln -n TodoApi
@@ -50,15 +54,15 @@ dotnet add TodoApi/TodoApi.csproj package Microsoft.EntityFrameworkCore.SqlServe
 dotnet add TodoApi/TodoApi.csproj package Microsoft.EntityFrameworkCore.Design --version 8.0.32
 ```
 
-سپس مدل `TodoTask`، `TodoDbContext`، تنظیم رشته اتصال و اجرای `Database.MigrateAsync()` در startup را اضافه کنید. migration اولیه‌ی این پروژه با دستور زیر تولید شده و در مخزن نگهداری می‌شود:
+<p dir="rtl" align="right">سپس مدل <code dir="ltr">TodoTask</code>، <code dir="ltr">TodoDbContext</code>، تنظیم رشته اتصال و اجرای <code dir="ltr">Database.MigrateAsync()</code> در startup را اضافه کنید. migration اولیه‌ی این پروژه با دستور زیر تولید شده و در مخزن نگه‌داری می‌شود:</p>
 
 ```powershell
 dotnet ef migrations add InitialCreate --project TodoApi/TodoApi.csproj --startup-project TodoApi/TodoApi.csproj --output-dir Data/Migrations
 ```
 
-## دریافت و اجرای پروژه
+<h2 dir="rtl" align="right">دریافت و اجرای پروژه</h2>
 
-دستورها را از پوشه اصلی مخزن اجرا کنید:
+<p dir="rtl" align="right">دستورها را از پوشه‌ی اصلی مخزن اجرا کنید:</p>
 
 ```powershell
 dotnet restore TodoApi.sln
@@ -66,23 +70,25 @@ dotnet build TodoApi.sln
 dotnet run --project TodoApi/TodoApi.csproj
 ```
 
-در اولین اجرا، اگر دیتابیس `TodoApiDb` وجود نداشته باشد، EF Core آن را ایجاد می‌کند و migration اولیه را اعمال می‌کند. مستندات Swagger در حالت Development در این نشانی‌ها در دسترس است:
+<p dir="rtl" align="right">در اولین اجرا، اگر دیتابیس <code dir="ltr">TodoApiDb</code> وجود نداشته باشد، <bdi dir="ltr">EF Core</bdi> آن را ایجاد می‌کند و migration اولیه را اعمال می‌کند. مستندات Swagger در حالت Development در این نشانی‌ها در دسترس است:</p>
 
-- `http://localhost:5248/swagger`
-- `https://localhost:7187/swagger`
+<ul dir="rtl" align="right">
+	<li><code dir="ltr">http://localhost:5248/swagger</code></li>
+	<li><code dir="ltr">https://localhost:7187/swagger</code></li>
+</ul>
 
-## API پیاده‌سازی‌شده
+<h2 dir="rtl" align="right">API پیاده‌سازی‌شده</h2>
 
-### دریافت وظایف
+<h3 dir="rtl" align="right">دریافت وظایف</h3>
 
 ```http
 GET /api/tasks
 GET /api/tasks/{id}
 ```
 
-پاسخ هر دو route در صورت موفقیت `200 OK` است. اگر لیست خالی باشد بدنه‌ی پاسخ `[]` است؛ شناسه‌ی ناموجود در route دوم پاسخ `404 Not Found` می‌دهد.
+<p dir="rtl" align="right">پاسخ هر دو route در صورت موفقیت <code dir="ltr">200 OK</code> است. اگر لیست خالی باشد بدنه‌ی پاسخ <code dir="ltr">[]</code> است؛ شناسه‌ی ناموجود در route دوم پاسخ <code dir="ltr">404 Not Found</code> می‌دهد.</p>
 
-### ساخت وظیفه و نمایش 400
+<h3 dir="rtl" align="right">ساخت وظیفه و نمایش 400</h3>
 
 ```http
 POST /api/tasks
@@ -96,44 +102,54 @@ Content-Type: application/json
 }
 ```
 
-درخواست معتبر پاسخ `201 Created` و header `Location` با مسیر `GET /api/tasks/{id}` می‌دهد. اگر `title` یا `description` خالی/حذف شده باشد، طول عنوان بیش از 200، طول توضیحات بیش از 2000، یا `dueDate` ارسال نشده باشد، `[ApiController]` قبل از اجرای action پاسخ `400 Bad Request` با `ValidationProblemDetails` تولید می‌کند. در Swagger نیز پاسخ‌های `201` و `400` برای `POST` مستند شده‌اند.
+<p dir="rtl" align="right">درخواست معتبر پاسخ <code dir="ltr">201 Created</code> و header <code dir="ltr">Location</code> با مسیر <code dir="ltr">GET /api/tasks/{id}</code> می‌دهد. اگر <code dir="ltr">title</code> یا <code dir="ltr">description</code> خالی/حذف شده باشد، طول عنوان بیش از 200، طول توضیحات بیش از 2000، یا <code dir="ltr">dueDate</code> ارسال نشده باشد، <code dir="ltr">[ApiController]</code> قبل از اجرای action پاسخ <code dir="ltr">400 Bad Request</code> با <code dir="ltr">ValidationProblemDetails</code> تولید می‌کند. در Swagger نیز پاسخ‌های 201 و 400 برای POST مستند شده‌اند.</p>
 
-نمونه‌ی آماده‌ی درخواست نامعتبر در `TodoApi/TodoApi.http` است؛ در آن `title` خالی و `dueDate` حذف شده تا خطاهای اعتبارسنجی را ببینی.
+<p dir="rtl" align="right">نمونه‌ی آماده‌ی درخواست نامعتبر در فایل <code dir="ltr">TodoApi/TodoApi.http</code> است؛ در آن <code dir="ltr">title</code> خالی و <code dir="ltr">dueDate</code> حذف شده تا خطاهای اعتبارسنجی را ببینی.</p>
 
-### مدیریت خطا و کدهای وضعیت
+<h3 dir="rtl" align="right">مدیریت خطا و کدهای وضعیت</h3>
 
-| کد | کاربرد | بدنه‌ی خطا |
-| --- | --- | --- |
-| `400 Bad Request` | درخواست دارای ورودی نامعتبر؛ برای endpointهای دارای DTO ورودی مثل `POST` و `PUT` | `ValidationProblemDetails` با جزئیات فیلدهای نامعتبر |
-| `404 Not Found` | شناسه‌ی وظیفه پیدا نشود | `ProblemDetails` |
-| `500 Internal Server Error` | خطای پیش‌بینی‌نشده، مثل در دسترس نبودن دیتابیس | `ProblemDetails` عمومی؛ جزئیات داخلی exception به client داده نمی‌شود |
+<table dir="rtl" align="right">
+	<thead>
+		<tr><th>کد</th><th>کاربرد</th><th>بدنه‌ی خطا</th></tr>
+	</thead>
+	<tbody>
+		<tr><td><code dir="ltr">400 Bad Request</code></td><td>درخواست دارای ورودی نامعتبر؛ برای endpointهای دارای DTO ورودی مثل POST و PUT</td><td><code dir="ltr">ValidationProblemDetails</code> با جزئیات فیلدهای نامعتبر</td></tr>
+		<tr><td><code dir="ltr">404 Not Found</code></td><td>شناسه‌ی وظیفه پیدا نشود</td><td><code dir="ltr">ProblemDetails</code></td></tr>
+		<tr><td><code dir="ltr">500 Internal Server Error</code></td><td>خطای پیش‌بینی‌نشده، مثل در دسترس نبودن دیتابیس</td><td><code dir="ltr">ProblemDetails</code> عمومی؛ جزئیات داخلی exception به client داده نمی‌شود</td></tr>
+	</tbody>
+</table>
 
-`AddProblemDetails`، `UseExceptionHandler` و `UseStatusCodePages` پاسخ‌های خطای سراسری را پوشش می‌دهند. `[ApiController]` پیش از اجرای action، ورودی نامعتبر را خودکار با `400 ValidationProblemDetails` پاسخ می‌دهد. خطای ناشناخته با `500 ProblemDetails` برمی‌گردد و جزئیات داخلی exception برای client افشا نمی‌شود. در Swagger پاسخ‌های متناسب با هر endpoint با `[ProducesResponseType]` ثبت شده‌اند.
+<p dir="rtl" align="right"><code dir="ltr">AddProblemDetails</code>، <code dir="ltr">UseExceptionHandler</code> و <code dir="ltr">UseStatusCodePages</code> پاسخ‌های خطای سراسری را پوشش می‌دهند. <code dir="ltr">[ApiController]</code> پیش از اجرای action، ورودی نامعتبر را خودکار با <code dir="ltr">400 ValidationProblemDetails</code> پاسخ می‌دهد. خطای ناشناخته با <code dir="ltr">500 ProblemDetails</code> برمی‌گردد و جزئیات داخلی exception برای client افشا نمی‌شود. در Swagger پاسخ‌های متناسب با هر endpoint با <code dir="ltr">[ProducesResponseType]</code> ثبت شده‌اند.</p>
 
-## Migrationهای بعدی
+<h2 dir="rtl" align="right">Migrationهای بعدی</h2>
 
-برای تغییر schema، ابتدا مدل را تغییر دهید و یک migration جدید بسازید. ابزار `dotnet-ef` را فقط یک‌بار نصب کنید:
+<p dir="rtl" align="right">برای تغییر schema، ابتدا مدل را تغییر دهید و یک migration جدید بسازید. ابزار <code dir="ltr">dotnet-ef</code> را فقط یک‌بار نصب کنید:</p>
 
 ```powershell
 dotnet tool install --global dotnet-ef --version 8.0.32
 ```
 
-سپس از پوشه اصلی مخزن migration بسازید؛ نام نمونه را متناسب با تغییر خود انتخاب کنید:
+<p dir="rtl" align="right">سپس از پوشه‌ی اصلی مخزن migration بسازید؛ نام نمونه را متناسب با تغییر خود انتخاب کنید:</p>
 
 ```powershell
 dotnet ef migrations add AddTaskField --project TodoApi/TodoApi.csproj --startup-project TodoApi/TodoApi.csproj --output-dir Data/Migrations
 ```
 
-نیازی به اجرای `dotnet ef database update` نیست. با اجرای بعدی برنامه، `Database.MigrateAsync()` migration جدید را روی دیتابیس اعمال می‌کند. EF Core migration را از روی تغییر مدل به‌صورت خودکار تولید نمی‌کند؛ ساخت migration برای هر تغییر schema یک‌بار لازم است.
+<p dir="rtl" align="right">نیازی به اجرای <code dir="ltr">dotnet ef database update</code> نیست. با اجرای بعدی برنامه، <code dir="ltr">Database.MigrateAsync()</code> migration جدید را روی دیتابیس اعمال می‌کند. <bdi dir="ltr">EF Core</bdi> migration را از روی تغییر مدل به‌صورت خودکار تولید نمی‌کند؛ ساخت migration برای هر تغییر schema یک‌بار لازم است.</p>
 
-## مدل دیتابیس
+<h2 dir="rtl" align="right">مدل دیتابیس</h2>
 
-جدول `Tasks` شامل این فیلدهاست:
+<p dir="rtl" align="right">جدول <code dir="ltr">Tasks</code> شامل این فیلدهاست:</p>
 
-| فیلد | نوع SQL Server |
-| --- | --- |
-| `Id` | `uniqueidentifier` |
-| `Title` | `nvarchar(200)` |
-| `Description` | `nvarchar(2000)` |
-| `IsCompleted` | `bit` |
-| `DueDate` | `datetime2` |
+<table dir="rtl" align="right">
+	<thead>
+		<tr><th>فیلد</th><th>نوع SQL Server</th></tr>
+	</thead>
+	<tbody>
+		<tr><td><code dir="ltr">Id</code></td><td><code dir="ltr">uniqueidentifier</code></td></tr>
+		<tr><td><code dir="ltr">Title</code></td><td><code dir="ltr">nvarchar(200)</code></td></tr>
+		<tr><td><code dir="ltr">Description</code></td><td><code dir="ltr">nvarchar(2000)</code></td></tr>
+		<tr><td><code dir="ltr">IsCompleted</code></td><td><code dir="ltr">bit</code></td></tr>
+		<tr><td><code dir="ltr">DueDate</code></td><td><code dir="ltr">datetime2</code></td></tr>
+	</tbody>
+</table>
