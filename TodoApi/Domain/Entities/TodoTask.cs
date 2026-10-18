@@ -1,4 +1,4 @@
-namespace TodoApi.Models;
+namespace TodoApi.Domain.Entities;
 
 public sealed class TodoTask
 {

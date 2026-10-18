@@ -25,7 +25,7 @@ namespace TodoApi.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TodoApi.Models.TodoTask", b =>
+            modelBuilder.Entity("TodoApi.Domain.Entities.TodoTask", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

@@ -6,7 +6,22 @@ API مدیریت وظایف با ASP.NET Core 8 و SQL Server. این پروژه
 
 - زیرساخت SQL Server، مدل `TodoTask`، `TodoDbContext` و migration اولیه آماده است.
 - برنامه در زمان اجرا migrationهای موجود را خودکار اعمال می‌کند.
-- endpointهای CRUD و اعتبارسنجی درخواست‌ها در مرحله بعدی پیاده‌سازی می‌شوند.
+- `GET /api/tasks` برای دریافت همه‌ی وظایف پیاده‌سازی شده است.
+- دریافت یک وظیفه، ساخت، ویرایش، حذف و اعتبارسنجی DTOهای ورودی مراحل بعدی هستند.
+- خطاهای مدیریت‌نشده و پاسخ‌های status خالی با Problem Details به‌صورت سراسری مدیریت می‌شوند.
+
+## ساختار کد
+
+```text
+TodoApi/
+├── Controllers/       # HTTP endpoints
+├── Domain/Entities/   # TodoTask
+├── DTOs/Tasks/        # مدل‌های ورودی و خروجی API
+├── Data/              # DbContext و EF Core migrations
+└── Services/Tasks/    # منطق دسترسی و عملیات وظایف
+```
+
+در این پروژه‌ی کوچک، هر لایه پوشه‌ی جدا دارد و در یک پروژه‌ی .NET نگه‌داری می‌شود. `TodoDbContext` نقش Repository/Unit of Work مربوط به EF Core را دارد؛ بنابراین Repository عمومی جداگانه اضافه نشده است.
 
 ## پیش‌نیازها
 
@@ -54,6 +69,26 @@ dotnet run --project TodoApi/TodoApi.csproj
 
 - `http://localhost:5248/swagger`
 - `https://localhost:7187/swagger`
+
+## API پیاده‌سازی‌شده
+
+### دریافت همه‌ی وظایف
+
+```http
+GET /api/tasks
+```
+
+پاسخ موفق `200 OK` است. اگر هنوز وظیفه‌ای ثبت نشده باشد، بدنه‌ی پاسخ آرایه‌ی خالی (`[]`) خواهد بود. درخواست نمونه نیز در `TodoApi/TodoApi.http` قرار دارد.
+
+### مدیریت خطا و کدهای وضعیت
+
+| کد | کاربرد | بدنه‌ی خطا |
+| --- | --- | --- |
+| `400 Bad Request` | درخواست دارای ورودی نامعتبر؛ برای endpointهای دارای DTO ورودی مثل `POST` و `PUT` | `ValidationProblemDetails` با جزئیات فیلدهای نامعتبر |
+| `404 Not Found` | شناسه‌ی وظیفه پیدا نشود؛ برای endpointهای تک‌وظیفه‌ای | `ProblemDetails` |
+| `500 Internal Server Error` | خطای پیش‌بینی‌نشده، مثل در دسترس نبودن دیتابیس | `ProblemDetails` عمومی؛ جزئیات داخلی exception به client داده نمی‌شود |
+
+`AddProblemDetails`، `UseExceptionHandler` و `UseStatusCodePages` پاسخ‌های خطای سراسری را پوشش می‌دهند. `[ApiController]` نیز پس از اضافه‌شدن DTOهای اعتبارسنجی‌شده، ورودی نامعتبر را خودکار با `400` پاسخ می‌دهد. چون `GET /api/tasks` ورودی قابل اعتبارسنجی ندارد، پاسخ معمول آن `200` است؛ در Swagger پاسخ‌های `200` و `500` برای همین endpoint ثبت شده‌اند. برای endpointهای بعدی، status codeهای واقعی همان عملیات را با `[ProducesResponseType]` مستند کنید؛ مثلا `400` برای POST/PUT و `404` برای دریافت، ویرایش یا حذف شناسه‌ی ناموجود.
 
 ## Migrationهای بعدی
 
