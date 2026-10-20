@@ -9,7 +9,7 @@ namespace TodoApi.Controllers;
 [Produces("application/json")]
 public sealed class TasksController(ITodoTaskService todoTaskService) : ControllerBase
 {
-    [HttpGet(Name = "GetAllTasks")]
+    [HttpGet("", Name = "GetAllTasks")]
     [ProducesResponseType(typeof(IReadOnlyList<TodoTaskResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IReadOnlyList<TodoTaskResponse>>> GetAll(CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ public sealed class TasksController(ITodoTaskService todoTaskService) : Controll
         return Ok(task);
     }
 
-    [HttpPost]
+    [HttpPost("")]
     [ProducesResponseType(typeof(TodoTaskResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

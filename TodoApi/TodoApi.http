@@ -1,10 +1,10 @@
 @TodoApi_HostAddress = http://localhost:5248
 
+### Get all tasks
 GET {{TodoApi_HostAddress}}/api/tasks
 Accept: application/json
 
-###
-
+### Get one task by ID
 GET {{TodoApi_HostAddress}}/api/tasks/00000000-0000-0000-0000-000000000001
 Accept: application/json
 

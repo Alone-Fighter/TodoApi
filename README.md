@@ -79,6 +79,21 @@ dotnet run --project TodoApi/TodoApi.csproj
 
 <h2 dir="rtl" align="right">API پیاده‌سازی‌شده</h2>
 
+<p dir="rtl" align="right">همه‌ی عملیات روی منبع جمع <code dir="ltr">/api/tasks</code> انجام می‌شوند. endpoint با ترکیب متد HTTP و مسیر انتخاب می‌شود: GET بدون شناسه فهرست را می‌خواند، POST روی همان مسیر وظیفه می‌سازد، و برای کار روی یک وظیفه شناسه به انتهای مسیر اضافه می‌شود. مسیر درست <code dir="ltr">/api/tasks</code> است، نه <code dir="ltr">/api/task</code>.</p>
+
+<table dir="rtl" align="right">
+	<thead>
+		<tr><th>متد</th><th>مسیر</th><th>کاربرد</th><th>وضعیت</th></tr>
+	</thead>
+	<tbody>
+		<tr><td><code dir="ltr">GET</code></td><td><code dir="ltr">/api/tasks</code></td><td>دریافت همه‌ی وظایف</td><td>پیاده‌سازی شده</td></tr>
+		<tr><td><code dir="ltr">GET</code></td><td><code dir="ltr">/api/tasks/{id}</code></td><td>دریافت یک وظیفه</td><td>پیاده‌سازی شده</td></tr>
+		<tr><td><code dir="ltr">POST</code></td><td><code dir="ltr">/api/tasks</code></td><td>ساخت وظیفه‌ی جدید</td><td>پیاده‌سازی شده</td></tr>
+		<tr><td><code dir="ltr">PUT</code></td><td><code dir="ltr">/api/tasks/{id}</code></td><td>ویرایش وظیفه</td><td>مرحله‌ی بعد</td></tr>
+		<tr><td><code dir="ltr">DELETE</code></td><td><code dir="ltr">/api/tasks/{id}</code></td><td>حذف وظیفه</td><td>مرحله‌ی بعد</td></tr>
+	</tbody>
+</table>
+
 <h3 dir="rtl" align="right">دریافت وظایف</h3>
 
 ```http
