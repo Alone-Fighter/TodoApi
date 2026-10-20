@@ -28,3 +28,18 @@ Content-Type: application/json
 	"description": "This request should fail validation.",
 	"isCompleted": false
 }
+
+### Replace a task; replace the sample ID with an existing task ID
+PUT {{TodoApi_HostAddress}}/api/tasks/00000000-0000-0000-0000-000000000001
+Content-Type: application/json
+
+{
+	"title": "Prepare API demo",
+	"description": "Updated task description.",
+	"isCompleted": true,
+	"dueDate": "2026-10-26T12:00:00"
+}
+
+### Delete a task; replace the sample ID with an existing task ID
+DELETE {{TodoApi_HostAddress}}/api/tasks/00000000-0000-0000-0000-000000000001
+Accept: application/json

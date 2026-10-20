@@ -57,4 +57,47 @@ public sealed class TodoTaskService(TodoDbContext dbContext) : ITodoTaskService
             task.IsCompleted,
             task.DueDate);
     }
+
+    public async Task<TodoTaskResponse?> UpdateAsync(
+        Guid id,
+        UpdateTodoTaskRequest request,
+        CancellationToken cancellationToken)
+    {
+        var task = await dbContext.Tasks
+            .FirstOrDefaultAsync(task => task.Id == id, cancellationToken);
+
+        if (task is null)
+        {
+            return null;
+        }
+
+        task.Title = request.Title;
+        task.Description = request.Description;
+        task.IsCompleted = request.IsCompleted;
+        task.DueDate = request.DueDate!.Value;
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return new TodoTaskResponse(
+            task.Id,
+            task.Title,
+            task.Description,
+            task.IsCompleted,
+            task.DueDate);
+    }
+
+    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var task = await dbContext.Tasks
+            .FirstOrDefaultAsync(task => task.Id == id, cancellationToken);
+
+        if (task is null)
+        {
+            return false;
+        }
+
+        dbContext.Tasks.Remove(task);
+        await dbContext.SaveChangesAsync(cancellationToken);
+        return true;
+    }
 }

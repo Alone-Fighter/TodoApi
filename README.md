@@ -9,7 +9,7 @@
 	<li>برنامه هنگام اجرا migrationهای موجود را خودکار اعمال می‌کند.</li>
 	<li><code dir="ltr">GET /api/tasks</code> و <code dir="ltr">GET /api/tasks/{id}</code> برای دریافت وظایف پیاده‌سازی شده‌اند.</li>
 	<li><code dir="ltr">POST /api/tasks</code> وظیفه می‌سازد و اعتبارسنجی ورودی دارد.</li>
-	<li><code dir="ltr">PUT /api/tasks/{id}</code> و <code dir="ltr">DELETE /api/tasks/{id}</code> مراحل بعدی هستند.</li>
+	<li>هر پنج endpoint موردنیاز تسک پیاده‌سازی شده‌اند.</li>
 	<li>خطاهای مدیریت‌نشده و پاسخ‌های status خالی با <bdi dir="ltr">Problem Details</bdi> به‌صورت سراسری مدیریت می‌شوند.</li>
 </ul>
 
@@ -89,8 +89,8 @@ dotnet run --project TodoApi/TodoApi.csproj
 		<tr><td><code dir="ltr">GET</code></td><td><code dir="ltr">/api/tasks</code></td><td>دریافت همه‌ی وظایف</td><td>پیاده‌سازی شده</td></tr>
 		<tr><td><code dir="ltr">GET</code></td><td><code dir="ltr">/api/tasks/{id}</code></td><td>دریافت یک وظیفه</td><td>پیاده‌سازی شده</td></tr>
 		<tr><td><code dir="ltr">POST</code></td><td><code dir="ltr">/api/tasks</code></td><td>ساخت وظیفه‌ی جدید</td><td>پیاده‌سازی شده</td></tr>
-		<tr><td><code dir="ltr">PUT</code></td><td><code dir="ltr">/api/tasks/{id}</code></td><td>ویرایش وظیفه</td><td>مرحله‌ی بعد</td></tr>
-		<tr><td><code dir="ltr">DELETE</code></td><td><code dir="ltr">/api/tasks/{id}</code></td><td>حذف وظیفه</td><td>مرحله‌ی بعد</td></tr>
+		<tr><td><code dir="ltr">PUT</code></td><td><code dir="ltr">/api/tasks/{id}</code></td><td>جایگزینی کامل فیلدهای وظیفه</td><td>پیاده‌سازی شده</td></tr>
+		<tr><td><code dir="ltr">DELETE</code></td><td><code dir="ltr">/api/tasks/{id}</code></td><td>حذف وظیفه</td><td>پیاده‌سازی شده</td></tr>
 	</tbody>
 </table>
 
@@ -120,6 +120,30 @@ Content-Type: application/json
 <p dir="rtl" align="right">درخواست معتبر پاسخ <code dir="ltr">201 Created</code> و header <code dir="ltr">Location</code> با مسیر <code dir="ltr">GET /api/tasks/{id}</code> می‌دهد. اگر <code dir="ltr">title</code> یا <code dir="ltr">description</code> خالی/حذف شده باشد، طول عنوان بیش از 200، طول توضیحات بیش از 2000، یا <code dir="ltr">dueDate</code> ارسال نشده باشد، <code dir="ltr">[ApiController]</code> قبل از اجرای action پاسخ <code dir="ltr">400 Bad Request</code> با <code dir="ltr">ValidationProblemDetails</code> تولید می‌کند. در Swagger نیز پاسخ‌های 201 و 400 برای POST مستند شده‌اند.</p>
 
 <p dir="rtl" align="right">نمونه‌ی آماده‌ی درخواست نامعتبر در فایل <code dir="ltr">TodoApi/TodoApi.http</code> است؛ در آن <code dir="ltr">title</code> خالی و <code dir="ltr">dueDate</code> حذف شده تا خطاهای اعتبارسنجی را ببینی.</p>
+
+<h3 dir="rtl" align="right">ویرایش کامل وظیفه</h3>
+
+<p dir="rtl" align="right">در <code dir="ltr">PUT /api/tasks/{id}</code> همه‌ی فیلدهای قابل‌ویرایش باید ارسال شوند. پاسخ موفق <code dir="ltr">200 OK</code> است؛ شناسه‌ی ناموجود <code dir="ltr">404 Not Found</code> و payload نامعتبر <code dir="ltr">400 ValidationProblemDetails</code> می‌دهد.</p>
+
+```http
+PUT /api/tasks/{id}
+Content-Type: application/json
+
+{
+	"title": "Prepare API demo",
+	"description": "Updated task description.",
+	"isCompleted": true,
+	"dueDate": "2026-10-26T12:00:00"
+}
+```
+
+<h3 dir="rtl" align="right">حذف وظیفه</h3>
+
+<p dir="rtl" align="right">درخواست <code dir="ltr">DELETE /api/tasks/{id}</code> در صورت موفقیت <code dir="ltr">204 No Content</code> و برای شناسه‌ی ناموجود <code dir="ltr">404 Not Found</code> برمی‌گرداند.</p>
+
+```http
+DELETE /api/tasks/{id}
+```
 
 <h3 dir="rtl" align="right">مدیریت خطا و کدهای وضعیت</h3>
 
