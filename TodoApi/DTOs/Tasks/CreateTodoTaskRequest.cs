@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TodoApi.DTOs.Tasks;
 
-/// <summary>Payload for creating a task.</summary>
 public sealed record CreateTodoTaskRequest
 {
     [Required]
