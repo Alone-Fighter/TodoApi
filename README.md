@@ -159,6 +159,8 @@ dotnet test TodoApi.Tests/TodoApi.Tests.csproj
 
 <p dir="rtl" align="right">Unit test مستقیم متد Controller، فیلتر خودکار <code dir="ltr">[ApiController]</code> و model binding را اجرا نمی‌کند؛ به همین دلیل خطای <code dir="ltr">400</code> حاصل از JSON نامعتبر باید با integration test روی HTTP client تست شود. تست اعتبارسنجی Data Annotations در این پروژه فقط خود قواعد DTO را بررسی می‌کند.</p>
 
+<p dir="rtl" align="right">راهنمای کامل ساختار تست‌ها، اجرای یک تست، الگوی نوشتن تست جدید و تفاوت unit test با integration test در فایل <a href="TESTING.md">TESTING.md</a> آمده است.</p>
+
 <h3 dir="rtl" align="right">مدیریت خطا و کدهای وضعیت</h3>
 
 <table dir="rtl" align="right">
