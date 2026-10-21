@@ -81,7 +81,7 @@ dotnet run --project TodoApi/TodoApi.csproj
 
 <p dir="rtl" align="right">همه‌ی عملیات روی منبع جمع <code dir="ltr">/api/tasks</code> انجام می‌شوند. endpoint با ترکیب متد HTTP و مسیر انتخاب می‌شود: GET بدون شناسه فهرست را می‌خواند، POST روی همان مسیر وظیفه می‌سازد، و برای کار روی یک وظیفه شناسه به انتهای مسیر اضافه می‌شود. مسیر درست <code dir="ltr">/api/tasks</code> است، نه <code dir="ltr">/api/task</code>.</p>
 
-<table dir="rtl" align="right">
+<table dir="rtl">
 	<thead>
 		<tr><th>متد</th><th>مسیر</th><th>کاربرد</th><th>وضعیت</th></tr>
 	</thead>
@@ -163,7 +163,7 @@ dotnet test TodoApi.Tests/TodoApi.Tests.csproj
 
 <h3 dir="rtl" align="right">مدیریت خطا و کدهای وضعیت</h3>
 
-<table dir="rtl" align="right">
+<table dir="rtl">
 	<thead>
 		<tr><th>کد</th><th>کاربرد</th><th>بدنه‌ی خطا</th></tr>
 	</thead>
@@ -196,7 +196,7 @@ dotnet ef migrations add AddTaskField --project TodoApi/TodoApi.csproj --startup
 
 <p dir="rtl" align="right">جدول <code dir="ltr">Tasks</code> شامل این فیلدهاست:</p>
 
-<table dir="rtl" align="right">
+<table dir="rtl">
 	<thead>
 		<tr><th>فیلد</th><th>نوع SQL Server</th></tr>
 	</thead>

@@ -14,7 +14,7 @@
 
 <h2 dir="rtl" align="right">2. ابزارهای تست</h2>
 
-<table dir="rtl" align="right">
+<table dir="rtl">
 	<thead>
 		<tr><th>ابزار</th><th>کاربرد</th></tr>
 	</thead>
@@ -57,7 +57,7 @@ dotnet test TodoApi.Tests/TodoApi.Tests.csproj --verbosity normal
 
 <h2 dir="rtl" align="right">4. تست‌های فعلی</h2>
 
-<table dir="rtl" align="right">
+<table dir="rtl">
 	<thead>
 		<tr><th>سناریو</th><th>رفتار مورد انتظار</th></tr>
 	</thead>
